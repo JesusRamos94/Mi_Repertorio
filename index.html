@@ -18,19 +18,19 @@
         <div class="form-group row">
           <label for="name" class="col-sm-2 col-form-label">Canción:</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="cancion" value="A dios le pido" required />
+            <input type="text" class="form-control" id="cancion" placeholder="A dios le pido" required />
           </div>
         </div>
         <div class="form-group row">
           <label for="email" class="col-sm-2 col-form-label">Artista: </label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="artista" value="Juanes" required />
+            <input type="text" class="form-control" id="artista" placeholder="Juanes" required />
           </div>
         </div>
         <div class="form-group row">
           <label for="rut" class="col-sm-2 col-form-label">Tono:</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="tono" value="Em" required />
+            <input type="text" class="form-control" id="tono" placeholder="Em" required />
           </div>
         </div>
         <button onclick="ingresar()" id="agregar" class="m-auto btn btn-success">
@@ -81,6 +81,8 @@
   let cancion = document.getElementById("cancion");
   let artista = document.getElementById("artista");
   let tono = document.getElementById("tono");
+  document.getElementById("agregar").style.display = "block";
+  document.getElementById("editar").style.display = "none";
 
   let canciones = [];
   window.onload = consultar();
@@ -114,7 +116,9 @@
   }
 
   function ingresar() {
-
+    if (cancion.value.trim() == "" || artista.value.trim() == "" || tono.value.trim() == "") {
+      alert("Debe rellenar los campos vacios")
+    } else {
       cancion;
       artista;
       tono;
@@ -124,6 +128,8 @@
         tono: tono.value,
       };
       axios.post(url, data).then(() => consultar());
+    }
+  }
 
 
   function eliminarCancion(i, id) {
@@ -149,18 +155,22 @@
   }
 
   function editarCancion() {
-    axios
-      .put(url, {
-        cancion: cancion.value,
-        artista: artista.value,
-        tono: tono.value,
-      })
-      .then(() => {
-        document.getElementById("agregar").style.display = "block";
-        document.getElementById("editar").style.display = "none";
-        consultar();
-      });
+    if (cancion.value.trim() == "" || artista.value.trim() == "" || tono.value.trim() == "") {
+      alert("Debe rellenar los campos vacios")
+    } else {
+      axios
+        .put(url, {
+          cancion: cancion.value,
+          artista: artista.value,
+          tono: tono.value,
+        })
+        .then(() => {
+          document.getElementById("agregar").style.display = "block";
+          document.getElementById("editar").style.display = "none";
+          consultar();
+        });
+    }
   }
 
-}
+
 </script>
